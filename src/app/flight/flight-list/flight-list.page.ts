@@ -5,7 +5,7 @@ import { takeUntil } from 'rxjs/operators';
 import { FlightFilterComponent } from 'src/app/form/flight-filter/flight-filter.component';
 import { TranslateService } from '@ngx-translate/core';
 import { AccountService, Flight, FlightService, PdfExportService, XlsxExportService } from 'flightbook-commons-library';
-// import { PdfExportService } from 'src/app/pdf-export.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-flight-list',
@@ -27,7 +27,8 @@ export class FlightListPage implements OnInit, OnDestroy, AfterViewInit {
     private translate: TranslateService,
     private loadingCtrl: LoadingController,
     private xlsxExportService: XlsxExportService,
-    private pdfExportService: PdfExportService
+    private pdfExportService: PdfExportService,
+    private router: Router,
   ) {
     this.flights$ = this.flightService.getState();
     this.filtered = this.flightService.filtered$.getValue();
@@ -102,6 +103,10 @@ export class FlightListPage implements OnInit, OnDestroy, AfterViewInit {
     modal.onDidDismiss().then((resp: any) => {
       this.content.scrollToPoint(0, 48);
     })
+  }
+
+  addFlight(evt: Event): void {
+    this.router.navigate(['/flights/add']);
   }
 
   xlsxExport() {
